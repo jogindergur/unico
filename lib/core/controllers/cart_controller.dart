@@ -108,4 +108,11 @@ class CartController extends GetxController {
   saveCart() async {
     await prefs?.setString("cartItems", jsonEncode(cartItems));
   }
+
+  resetCart() {
+    cartController.cartItems.value = {};
+    cartPopulatedItems.clear();
+    cartValue.value = 0.0;
+    isSnackBarShowing = false;
+  }
 }

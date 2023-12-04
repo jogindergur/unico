@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -117,6 +116,7 @@ class AuthController extends GetxController {
     try {
       await firebaseAuth.signOut();
       await prefs?.clear();
+      cartController.resetCart();
     } catch (e) {
       cartController.showMessage("Something went wrong");
     }
