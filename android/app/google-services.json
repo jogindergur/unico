@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "509708550867",
+    "project_id": "uni-joginder",
+    "storage_bucket": "uni-joginder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509708550867:android:e21a627cad4dc7db7b0a26",
+        "android_client_info": {
+          "package_name": "com.joginder.unico"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtpLpTcC3oUFz697E-a5ME6ZBdvmQd1dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

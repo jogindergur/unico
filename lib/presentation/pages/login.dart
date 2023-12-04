@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unico/presentation/pages/product_list.dart';
 import 'package:unico/utils/instances.dart';
 import 'package:unico/utils/styles.dart';
 import 'package:unico/utils/validator.dart';
@@ -34,10 +35,11 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
+                      controller: authController.emailController,
                       decoration: Styles.getFormFieldDecor("Email"),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                       return CustomValidator.emailValidation(
+                        return CustomValidator.emailValidation(
                             value: value!, name: "Email");
                       },
                     ),
@@ -45,10 +47,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20.0,
                     ),
                     TextFormField(
+                      controller: authController.passwordController,
                       decoration: Styles.getFormFieldDecor("Password"),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                       return CustomValidator.passwordValidation(
+                        return CustomValidator.passwordValidation(
                             value: value!, name: "Password");
                       },
                     ),
@@ -59,43 +62,48 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () async {
                         if (_formkey.currentState?.validate() ?? false) {
                           if (!authController.isLoading.value) {
-                          await authController.signInWithMail();
+                            bool status = await authController.signInWithMail();
+
+                            if (status) {
+                              Get.to(() => const ProductList());
+                            }
+                          }
                         }
-                        }
-                        
                       },
-                      child: Obx(() => Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30.0),
-                              child: authController.isLoading.value
-                                  ? const Center(
-                                      child: CircularProgressIndicator())
-                                  : Row(
-                                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Image.asset("assets/unico-logo.png"),
-                                        const SizedBox(
-                                          width: 30.0,
+                      child: Obx(
+                        () => Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
+                            child: authController.isLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : Row(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset("assets/unico-logo.png"),
+                                      const SizedBox(
+                                        width: 30.0,
+                                      ),
+                                      const Text(
+                                        "Login with UC",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        const Text(
-                                          "Login with UC",
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                            ),
-                          )),
+                                      )
+                                    ],
+                                  ),
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
