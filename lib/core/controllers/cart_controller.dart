@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unico/domain/models/product_model.dart';
@@ -11,6 +12,7 @@ class CartController extends GetxController {
   var cartItems = {}.obs;
   var cartPopulatedItems = <ProductModel>[].obs;
   var cartValue = 0.0.obs;
+  bool isSnackBarShowing = false;
 
   @override
   void onInit() async {
@@ -87,23 +89,23 @@ class CartController extends GetxController {
   }
 
   showMessage(String message) {
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
-      SnackBar(
-        duration: const Duration(milliseconds: 500),
-        content: Text(message),
-      ),
-    );
+    if (!isSnackBarShowing) {
+      isSnackBarShowing = true;
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(
+            SnackBar(
+              duration: const Duration(seconds: 1),
+              content: Text(message),
+            ),
+          )
+          .closed
+          .then((SnackBarClosedReason reason) {
+        isSnackBarShowing = false;
+      });
+    }
   }
 
   saveCart() async {
     await prefs?.setString("cartItems", jsonEncode(cartItems));
   }
-
-  // @override
-  // void onClose() {
-  //   // Get.delete<CartController>();
-  //   print("in cart dispose");
-  //   prefs?.setString("cartItems", jsonEncode(cartItems));
-  //   super.dispose();
-  // }
 }

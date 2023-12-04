@@ -26,8 +26,11 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
               ),
-              const Center(
-                child: Text('Login'),
+              Center(
+                child: Image.asset("assets/unico-logo.png"),
+              ),
+              const SizedBox(
+                height: 30.0,
               ),
               Form(
                 key: _formkey,
@@ -65,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                             bool status = await authController.signInWithMail();
 
                             if (status) {
-                              Get.to(() => const ProductList());
+                              Get.offAll(() => const ProductList());
                             }
                           }
                         }
@@ -104,7 +107,79 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                            child: Container(
+                          height: 1.5,
+                          color: Colors.black54,
+                        )),
+                        Text(
+                          " OR ",
+                          style: Styles.title,
+                        ),
+                        Flexible(
+                            child: Container(
+                          height: 1.5,
+                          color: Colors.black54,
+                        )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        if (!authController.isGoogleLoading.value) {
+                          bool status = await authController.signInWithGoogle();
+
+                          if (status) {
+                            Get.offAll(() => const ProductList());
+                          }
+                        }
+                      },
+                      child: Obx(
+                        () => Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
+                            child: authController.isGoogleLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : Row(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset("assets/google-logo.png"),
+                                      const SizedBox(
+                                        width: 30.0,
+                                      ),
+                                      const Text(
+                                        "Login with Google",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
                   ],
                 ),
               ),
